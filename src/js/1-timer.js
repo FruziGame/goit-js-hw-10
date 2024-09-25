@@ -25,24 +25,29 @@ const options = {
     },
   };
 
-  
-  const datePicker = flatpickr(dataInput, options);
+const datePicker = flatpickr(dataInput, options);
 
 
 let userSelectedDate;
 let timeObject;
 let getDataMs;
 
-function checkData() {
 
+
+function checkData() {
 
   let currentData = new Date();
 
     if (userSelectedDate.getTime() < currentData.getTime()) {
 
       button.disabled = true;
-      window.alert("Please choose a date in the future");
-      
+   
+      iziToast.show({
+        color: 'red',
+        message: 'Please choose a date in the future',
+        position: "topCenter"
+      });
+
      } else {
 
       button.disabled = false;
@@ -51,18 +56,11 @@ function checkData() {
 }
 
 
-button.addEventListener("click", () => {
-    console.log("started")
-    button.disabled = true;
 
-  //    не работает все 
-  //   datePicker.set('clickOpens', false);
-  //   datePicker.set('allowInput', false);
-  //   dataInput.disabled = true;
-   
-  //  dataInput.addEventListener("click", (e) => {
-  //     e.preventDefault(); // Запрещаем открытие при клике
-  // }); 
+button.addEventListener("click", () => {
+
+    button.disabled = true;
+    dataInput.disabled = true;
 
     tick()
 });
@@ -86,21 +84,13 @@ function tick() {
 
     if(getDataMs <= 0) {
       clearInterval(intervalId);
+      dataInput.disabled = false;
+
       return;
     }
 
   }, 1000);
 }
-
-
-
-
-// наприклад addLeadingZero(value), 
-// яка використовує метод рядка padStart() і перед відмальовуванням 
-// інтерфейсу форматує значення.
-
-
-
 
 
 
