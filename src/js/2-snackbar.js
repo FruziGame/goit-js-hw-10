@@ -4,40 +4,32 @@ import "izitoast/dist/css/iziToast.min.css";
 
 
 
-const button = document.querySelector("button[type='submit']")
 const delayInput = document.querySelector("input[type='number']")
+const form = document.querySelector(".form");
 
-let state
-let delay
 
-button.addEventListener("click" , (e) => {
+
+form.addEventListener("submit" , (e) => {
 
     e.preventDefault();
-    delay = Number(delayInput.value)
 
-    state = document.querySelector("input[name='state']:checked")
+    const delay = Number(delayInput.value)
+    const state = document.querySelector("input[name='state']:checked")
 
-    
-
-
-    createPromise(delay)
+    createPromise(delay, state)
 })
 
 
 
 
 
-
-
-
-
-function createPromise(delay) {
+function createPromise(delay,state) {
 
 
     const promise = new Promise((resolve, reject) => {
         setTimeout(() => {
 
-            const shouldResolve = beOrNotToBe()
+            const shouldResolve = beOrNotToBe(state)
 
             if (shouldResolve) {
                 resolve(    
@@ -65,9 +57,10 @@ function createPromise(delay) {
 
 
 
-function beOrNotToBe() {
+function beOrNotToBe(state) {
 
     if (state && state.value === 'fulfilled') {
-        return true
-      }
+        return true;
+    }
+    return false;
 }
