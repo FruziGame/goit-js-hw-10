@@ -17,6 +17,7 @@ form.addEventListener("submit" , (e) => {
     const state = document.querySelector("input[name='state']:checked")
 
     createPromise(delay, state)
+    form.reset()
 })
 
 
