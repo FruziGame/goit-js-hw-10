@@ -17,51 +17,65 @@ form.addEventListener("submit" , (e) => {
     const state = document.querySelector("input[name='state']:checked")
 
     createPromise(delay, state)
+        .then(()=> {
+            fulfilledMessage(delay)
+        })
+
+        .catch(() => {
+            rejectMessage(delay)
+        }) 
+
+
     form.reset()
 })
 
 
-
-
-
 function createPromise(delay,state) {
 
-
-    const promise = new Promise((resolve, reject) => {
+    return  new Promise((resolve, reject) => {
         setTimeout(() => {
 
-            const shouldResolve = beOrNotToBe(state)
+            const shouldResolve = isFulfilledState(state)
 
             if (shouldResolve) {
-                resolve(    
-                    iziToast.show({
-                    color: 'green',
-                    message: `✅ Fulfilled promise in ${delay}ms`,
-                    position: "topCenter"
-                  })
-                );
-
+                resolve();
             } else {
-                reject(
-                    iziToast.show({
-                        color: 'red',
-                        message: `❌ Rejected promise in ${delay} ms`,
-                        position: "topCenter"
-                      })
-                );  
+                reject()
             }
 
         }, delay)
+       
     })
 }
 
 
 
 
-function beOrNotToBe(state) {
+function isFulfilledState(state) {
 
     if (state && state.value === 'fulfilled') {
         return true;
     }
     return false;
 }
+
+
+
+function fulfilledMessage(delay) {
+    iziToast.show({
+        color: 'green',
+        message: `✅ Fulfilled promise in ${delay}ms`,
+        position: "topCenter"
+      })
+}
+
+
+function rejectMessage(delay) {
+    iziToast.show({
+        color: 'red',
+        message: `❌ Rejected promise in ${delay} ms`,
+        position: "topCenter"
+      })
+}
+
+
